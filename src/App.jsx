@@ -82,7 +82,7 @@ const App = () => {
       {products.map(product => (
         <div 
           key={product.id} 
-          className="bg-white shadow-md rounded-lg overflow-hidden product-card hover:transform hover:scale-105 transition-transform duration-300"
+          className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105"
         >
           <Card
             className="h-full"
@@ -94,9 +94,15 @@ const App = () => {
               />
             }
           >
+            <button 
+              onClick={() => alert(JSON.stringify(product, null, 2))} 
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors block text-center mt-2"
+            >
+              Show More
+            </button>
             <Meta
-              title={<div className="text-lg font-semibold">{product.title}</div>}
-              description={<div className="text-sm text-gray-600">{product.description}</div>}
+              title={<div className="text-lg font-semibold mt-2">{product.title}</div>}
+              description={<div className="text-sm text-gray-600 mt-1">{product.description}</div>}
             />
           </Card>
         </div>
