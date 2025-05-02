@@ -64,6 +64,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Card } from 'antd';
 import './App.css'; // Import a CSS file for animations
+import HeroSection from './Components/HeroSection';
 const { Meta } = Card;
 
 const App = () => {
@@ -78,7 +79,28 @@ const App = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+    <>
+    <nav className="bg-blue-600 text-white p-4 mb-6 fixed top-0 left-0 w-full z-50">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="text-xl font-bold">My Store</div>
+          <ul className="flex space-x-4">
+            <li>
+              <a href="#home" className="hover:text-gray-200">Home</a>
+            </li>
+            <li>
+              <a href="#products" className="hover:text-gray-200">Products</a>
+            </li>
+            <li>
+              <a href="#about" className="hover:text-gray-200">About</a>
+            </li>
+            <li>
+              <a href="#contact" className="hover:text-gray-200">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+    <div className="pt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4 mx-4">
       {products.map(product => (
         <div 
           key={product.id} 
@@ -94,12 +116,6 @@ const App = () => {
               />
             }
           >
-            <button 
-              onClick={() => alert(JSON.stringify(product, null, 2))} 
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors block text-center mt-2"
-            >
-              Show More
-            </button>
             <Meta
               title={<div className="text-lg font-semibold mt-2">{product.title}</div>}
               description={<div className="text-sm text-gray-600 mt-1">{product.description}</div>}
@@ -108,6 +124,7 @@ const App = () => {
         </div>
       ))}
     </div>
+    </>
   );
 }
 
