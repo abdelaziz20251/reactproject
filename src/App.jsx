@@ -60,71 +60,32 @@
 // }
 // export default App;
 import React from 'react';
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Card } from 'antd';
+import { useState } from 'react';
+import Home from "./Pages/Home";
+import About from "./Pages/About";
+import Products from "./Pages/Products";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css'; // Import a CSS file for animations
-import HeroSection from './Components/HeroSection';
-const { Meta } = Card;
+import Login from './Pages/Login';
+
 
 const App = () => {
-  const [products, setProducts] = useState([]);
-  
-  useEffect(() => {
-    async function getData() {
-      const response = await axios.get("https://dummyjson.com/products");
-      setProducts(response?.data?.products);
+  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
+
+  const ProtectedRoute = ({ children }) => {
+    if (!loggedIn) {
+      return <Navigate to="/" replace />;
     }
-    getData();
-  }, []);
+    return children;
+  };
 
   return (
-    <>
-    <nav className="bg-blue-600 text-white p-4 mb-6 fixed top-0 left-0 w-full z-50">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-xl font-bold">My Store</div>
-          <ul className="flex space-x-4">
-            <li>
-              <a href="#home" className="hover:text-gray-200">Home</a>
-            </li>
-            <li>
-              <a href="#products" className="hover:text-gray-200">Products</a>
-            </li>
-            <li>
-              <a href="#about" className="hover:text-gray-200">About</a>
-            </li>
-            <li>
-              <a href="#contact" className="hover:text-gray-200">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-    <div className="pt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4 mx-4">
-      {products.map(product => (
-        <div 
-          key={product.id} 
-          className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105"
-        >
-          <Card
-            className="h-full"
-            cover={
-              <img
-                alt={product.title}
-                src={product.images[0]}
-                className="w-full h-48 object-cover"
-              />
-            }
-          >
-            <Meta
-              title={<div className="text-lg font-semibold mt-2">{product.title}</div>}
-              description={<div className="text-sm text-gray-600 mt-1">{product.description}</div>}
-            />
-          </Card>
-        </div>
-      ))}
-    </div>
-    </>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/products" element={<ProtectedRoute><Products /></ProtectedRoute>} />
+        <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
+      </Routes>
   );
 }
 
