@@ -61,9 +61,12 @@
 // export default App;
 import React from 'react';
 import { useState } from 'react';
+import NavBar from './Components/NavBar';
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Products from "./Pages/Products";
+import Contact from "./Pages/Contact";
+import ProductDetails from './Pages/ProductDetails';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css'; // Import a CSS file for animations
 import Login from './Pages/Login';
@@ -80,12 +83,17 @@ const App = () => {
   };
 
   return (
+    <router>
+      <NavBar />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/products" element={<ProtectedRoute><Products /></ProtectedRoute>} />
         <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
+        <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+        <Route path="/products/:id" element={<ProtectedRoute><ProductDetails /></ProtectedRoute>} />
       </Routes>
+    </router>
   );
 }
 
